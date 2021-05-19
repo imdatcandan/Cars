@@ -1,6 +1,8 @@
 package com.imdatcandan.cars.view
 
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -75,23 +77,48 @@ class CarsActivity : AppCompatActivity(), OnMapReadyCallback {
             .load(carUiModel.carImageUrl)
             .placeholder(R.drawable.ic_placeholder_car_icon)
             .fallback(R.drawable.ic_placeholder_car_icon)
+            .error(R.drawable.ic_placeholder_car_icon)
             .into(object : SimpleTarget<Bitmap?>(ICON_SIZE, ICON_SIZE) {
                 override fun onResourceReady(
                     bitmap: Bitmap,
                     transition: Transition<in Bitmap?>?
                 ) {
-                    val carPosition = LatLng(carUiModel.latitude, carUiModel.longitude)
-
-                    val markerOptions = MarkerOptions()
-                        .position(carPosition)
-                        .title(carUiModel.name)
-                        .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
-
-                    carMap.addMarker(markerOptions)
-                    carMap.animateCamera(CameraUpdateFactory.newLatLngZoom(carPosition, ZOOM_LEVEL))
+                    setIconOnMap(carUiModel, bitmap)
                 }
-            }
-            )
+
+                override fun onLoadFailed(errorDrawable: Drawable?) {
+                    errorDrawable?.let {
+                        val fallbackIcon = convertDrawableToBitmap(it)
+                        setIconOnMap(carUiModel, fallbackIcon)
+                    }
+                }
+            })
+    }
+
+    private fun convertDrawableToBitmap(drawable: Drawable): Bitmap {
+        val bitmap = Bitmap.createBitmap(
+            ICON_SIZE,
+            ICON_SIZE,
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+
+        return bitmap
+    }
+
+    private fun setIconOnMap(carUiModel: CarUiModel, icon: Bitmap) {
+        val carPosition = LatLng(carUiModel.latitude, carUiModel.longitude)
+
+        val markerOptions = MarkerOptions()
+            .position(carPosition)
+            .title(carUiModel.name)
+            .icon(BitmapDescriptorFactory.fromBitmap(icon))
+
+        carMap.addMarker(markerOptions)
+        carMap.animateCamera(CameraUpdateFactory.newLatLngZoom(carPosition, ZOOM_LEVEL))
+
     }
 
     private companion object {
