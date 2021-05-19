@@ -22,11 +22,11 @@ class CarViewModel(private val carUseCase: CarUseCase) : ViewModel() {
         viewModelScope.launch {
             try {
                 val carList = carUseCase.getCarList()
-                _stateLiveData.postValue(ViewState.Success(carList))
+                _stateLiveData.value = ViewState.Success(carList)
             } catch (exception: Exception) {
-                _stateLiveData.postValue(ViewState.Error(exception))
+                _stateLiveData.value = ViewState.Error(exception)
             } finally {
-                _stateLiveData.postValue(ViewState.Loading(false))
+                _stateLiveData.value = ViewState.Loading(false)
             }
         }
     }
