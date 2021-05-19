@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="car"
+            name="carUiModel"
             type="com.imdatcandan.cars.model.CarUiModel" />
     </data>
 
@@ -30,69 +30,30 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/dimen_16_dp"
-                android:background="?android:attr/selectableItemBackground">
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="@dimen/dimen_16_dp">
 
                 <TextView
                     android:id="@+id/car_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/dimen_16_sp"
-                    app:layout_constraintBottom_toTopOf="@id/car_model_name"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:text="@{car.name}"
+                    app:text="@{carUiModel.name}"
                     card_view:text="carName" />
-
-                <TextView
-                    android:id="@+id/car_model_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/dimen_16_sp"
-                    app:layout_constraintBottom_toTopOf="@id/car_lisence_plate"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/car_name"
-                    app:text="@{car.modelName}"
-                    card_view:text="carModelName" />
-
-                <TextView
-                    android:id="@+id/car_lisence_plate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/dimen_16_sp"
-                    app:layout_constraintBottom_toTopOf="@id/car_fuel_level"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/car_model_name"
-                    app:text="@{car.licensePlate}"
-                    card_view:text="carLicensePlate" />
-
-                <TextView
-                    android:id="@+id/car_fuel_level"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/dimen_16_sp"
-                    app:layout_constraintBottom_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/car_lisence_plate"
-                    app:text="@{String.valueOf(car.fuelLevel)}"
-                    card_view:text="80" />
 
                 <ImageView
                     android:id="@+id/car_icon"
                     android:layout_width="@dimen/dimen_120_dp"
                     android:layout_height="@dimen/dimen_120_dp"
-                    app:imageUrl="@{car.carImageUrl}"
+                    app:imageUrl="@{carUiModel.carImageUrl}"
+                    app:layout_constraintTop_toBottomOf="@+id/car_name"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/car_fuel_level" />
+                    app:layout_constraintStart_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

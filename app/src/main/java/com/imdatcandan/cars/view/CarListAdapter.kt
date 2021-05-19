@@ -28,7 +28,7 @@ class CarListAdapter : ListAdapter<CarUiModel, CarListAdapter.CarViewHolder>(Com
 
     override fun onBindViewHolder(holder: CarViewHolder, position: Int) {
         val currentCar = getItem(position)
-        holder.binding.car = currentCar
+        holder.binding.carUiModel = currentCar
         holder.binding.executePendingBindings()
     }
 }
