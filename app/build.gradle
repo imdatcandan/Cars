@@ -63,7 +63,6 @@ dependencies {
 
     testImplementation "io.mockk:mockk:1.10.6"
     testImplementation "androidx.arch.core:core-testing:2.1.0"
-    debugImplementation "com.github.chuckerteam.chucker:library:3.4.0"
 
     implementation "org.koin:koin-android:2.2.2"
     implementation "org.koin:koin-android-viewmodel:2.2.2"
