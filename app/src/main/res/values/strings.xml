@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Cars</string>
+
+    <string name="dialog_error_title">Error</string>
+    <string name="dialog_error_message">Smth went wrong, please try again, %1$s</string>
+    <string name="dialog_error_button">Retry</string>
+</resources>
