@@ -18,9 +18,9 @@ class CarViewModel(private val carUseCase: CarUseCase) : ViewModel() {
     }
 
     fun getCarList() {
-        _stateLiveData.postValue(ViewState.Loading(true))
         viewModelScope.launch {
             try {
+                _stateLiveData.value = ViewState.Loading(true)
                 val carList = carUseCase.getCarList()
                 _stateLiveData.value = ViewState.Success(carList)
             } catch (exception: Exception) {

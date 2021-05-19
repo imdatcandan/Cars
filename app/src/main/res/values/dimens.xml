@@ -2,9 +2,7 @@
 <resources>
     <dimen name="dimen_4_dp">4dp</dimen>
     <dimen name="dimen_16_dp">16dp</dimen>
-    <dimen name="dimen_160_dp">160dp</dimen>
-    <dimen name="dimen_240_dp">240dp</dimen>
-    <dimen name="dimen_300_dp">300dp</dimen>
+    <dimen name="dimen_120_dp">120dp</dimen>
 
     <dimen name="dimen_16_sp">16sp</dimen>
 </resources>

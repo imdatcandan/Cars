@@ -102,7 +102,7 @@ class CarsActivity : AppCompatActivity(), OnMapReadyCallback {
             Bitmap.Config.ARGB_8888
         )
         val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.setBounds(BOUND_SIZE, BOUND_SIZE, canvas.width, canvas.height)
         drawable.draw(canvas)
 
         return bitmap
@@ -118,11 +118,11 @@ class CarsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         carMap.addMarker(markerOptions)
         carMap.animateCamera(CameraUpdateFactory.newLatLngZoom(carPosition, ZOOM_LEVEL))
-
     }
 
     private companion object {
         private const val ZOOM_LEVEL = 12f
         private const val ICON_SIZE = 120
+        private const val BOUND_SIZE = 0
     }
 }

@@ -18,8 +18,8 @@
         android:padding="@dimen/dimen_16_dp">
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="@dimen/dimen_300_dp"
-            android:layout_height="@dimen/dimen_300_dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -83,8 +83,8 @@
 
                 <ImageView
                     android:id="@+id/car_icon"
-                    android:layout_width="@dimen/dimen_240_dp"
-                    android:layout_height="@dimen/dimen_160_dp"
+                    android:layout_width="@dimen/dimen_120_dp"
+                    android:layout_height="@dimen/dimen_120_dp"
                     app:imageUrl="@{car.carImageUrl}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
