@@ -43,7 +43,6 @@ class CarUseCaseTest {
         val result = useCase.getCarList()
 
         assertEquals(result, carUiModelList)
-
     }
 
 }

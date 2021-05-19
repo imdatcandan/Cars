@@ -49,7 +49,6 @@ class CarsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-
     private fun setCarListOnMap(carList: List<CarUiModel>) {
         carListAdapter.submitList(carList)
         carList.forEach { car ->
