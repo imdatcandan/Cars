@@ -9,7 +9,7 @@ import com.imdatcandan.cars.domain.CarUseCase
 import com.imdatcandan.cars.viewmodel.CarViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import retrofit2.Retrofit

@@ -9,19 +9,11 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
-
 
 @ExperimentalCoroutinesApi
-@RunWith(JUnit4::class)
-class CarUseCaseTest {
-
-    private lateinit var useCase: CarUseCase
+class CarUseCaseTest : BaseUnitTest<CarUseCase>() {
 
     private val carRepository: CarRepository = mockk(relaxed = true)
     private val carDomainMapper: CarDomainMapper = mockk(relaxed = true)
@@ -30,17 +22,14 @@ class CarUseCaseTest {
     private val carApiModelList: List<CarApiModel> = listOf(carApiModel)
     private val carUiModelList: List<CarUiModel> = listOf(carUiModel)
 
-    @Before
-    fun setup() {
-        useCase = CarUseCase(carDomainMapper, carRepository)
-    }
+    override fun initSelf() = CarUseCase(carDomainMapper, carRepository)
 
     @Test
-    fun testGetCarList() = runBlockingTest {
+    fun testGetCarList() = testCoroutine {
         coEvery { carRepository.getCarList() } returns carApiModelList
         every { carDomainMapper.mapToDomain(carApiModel) } returns carUiModel
 
-        val result = useCase.getCarList()
+        val result = tested.getCarList()
 
         assertEquals(result, carUiModelList)
     }

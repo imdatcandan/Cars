@@ -21,7 +21,7 @@ import com.imdatcandan.cars.R
 import com.imdatcandan.cars.databinding.ActivityCarsBinding
 import com.imdatcandan.cars.model.CarUiModel
 import com.imdatcandan.cars.viewmodel.CarViewModel
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class CarsActivity : AppCompatActivity(), OnMapReadyCallback {
