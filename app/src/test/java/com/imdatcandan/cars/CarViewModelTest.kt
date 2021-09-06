@@ -1,77 +1,58 @@
 package com.imdatcandan.cars
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
+import app.cash.turbine.test
 import com.imdatcandan.cars.domain.CarUseCase
 import com.imdatcandan.cars.model.CarUiModel
 import com.imdatcandan.cars.view.ViewState
 import com.imdatcandan.cars.viewmodel.CarViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
-import io.mockk.spyk
-import io.mockk.verifyOrder
+import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Before
-import org.junit.Rule
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
+import kotlin.time.ExperimentalTime
 
 @ExperimentalCoroutinesApi
-@RunWith(JUnit4::class)
-class CarViewModelTest {
+class CarViewModelTest : BaseUnitTest<CarViewModel>() {
 
-    @ExperimentalCoroutinesApi
-    @get:Rule
-    val coroutineTestRule = CoroutineTestRule()
-
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
-
-    private lateinit var viewModel: CarViewModel
-    private lateinit var mockedObserver: Observer<ViewState>
-
-    private val useCase: CarUseCase = mockk(relaxed = true)
+    private val carUseCase: CarUseCase = mockk(relaxed = true)
     private val carList: List<CarUiModel> = mockk(relaxed = true)
 
-    @Before
-    fun setup() {
-        viewModel = CarViewModel(useCase)
-        mockedObserver = createViewStateObserver()
-        viewModel.stateLiveData.observeForever(mockedObserver)
-    }
+    override fun initSelf() = CarViewModel(carUseCase)
 
+    @ExperimentalTime
     @Test
-    fun testSuccessViewState() = runBlockingTest {
-        coEvery { useCase.getCarList() } returns carList
+    fun testSuccessViewState() = runBlocking {
+        coEvery { carUseCase.getCarList() } returns carList
 
-        viewModel.getCarList()
+        tested.uiStateFlow.test {
 
-        verifyOrder {
-            mockedObserver.onChanged(ViewState.Loading(true))
-            mockedObserver.onChanged(ViewState.Success(carList))
-            mockedObserver.onChanged(ViewState.Loading(false))
+            tested.getCarList()
+            assertEquals(ViewState.Loading(false), awaitItem())
+            assertEquals(ViewState.Loading(true), awaitItem())
+            assertEquals(ViewState.Success(carList), awaitItem())
+            assertEquals(ViewState.Loading(false), awaitItem())
         }
     }
 
+    @ExperimentalTime
     @Test
-    fun testErrorViewState() = runBlockingTest {
-        coEvery { useCase.getCarList() } throws ERROR
+    fun testErrorViewState() = testCoroutine {
+        coEvery { carUseCase.getCarList() } throws ERROR
 
-        viewModel.getCarList()
+        tested.uiStateFlow.test {
 
-        verifyOrder {
-            mockedObserver.onChanged(ViewState.Loading(true))
-            mockedObserver.onChanged(ViewState.Error(ERROR))
-            mockedObserver.onChanged(ViewState.Loading(false))
+            tested.getCarList()
+            assertEquals(ViewState.Loading(false), awaitItem())
+            assertEquals(ViewState.Loading(true), awaitItem())
+            assertEquals(ViewState.Error(ERROR), awaitItem())
+            assertEquals(ViewState.Loading(false), awaitItem())
         }
     }
 
     private companion object {
         private val ERROR = Exception("dummy error")
     }
-
-    private fun createViewStateObserver(): Observer<ViewState> = spyk(Observer { })
 
 }

@@ -21,7 +21,7 @@ class CarDomainMapperTest : BaseUnitTest<CarDomainMapper>() {
     }
 
     @Test
-    fun mapEmptyCarApiModelToCarUiModel() {
+    fun mapEmptyCarApiModelToEmptyCarUiModel() {
         val result = tested.mapToDomain(emptyCarApiModel)
 
         assertEquals(result, emptyCarUiModel)

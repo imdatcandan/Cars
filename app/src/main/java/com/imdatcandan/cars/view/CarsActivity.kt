@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.coroutineScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
@@ -21,6 +22,8 @@ import com.imdatcandan.cars.R
 import com.imdatcandan.cars.databinding.ActivityCarsBinding
 import com.imdatcandan.cars.model.CarUiModel
 import com.imdatcandan.cars.viewmodel.CarViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -42,11 +45,13 @@ class CarsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        viewModel.stateLiveData.observe(this) {
-            when (it) {
-                is ViewState.Success -> setCarListOnMap(it.carList)
-                is ViewState.Error -> showErrorDialog(it.exception)
-                is ViewState.Loading -> binding.progressBar.showLoading(it.isLoading)
+        lifecycle.coroutineScope.launch {
+            viewModel.uiStateFlow.collect {
+                when (it) {
+                    is ViewState.Success -> setCarListOnMap(it.carList)
+                    is ViewState.Error -> showErrorDialog(it.exception)
+                    is ViewState.Loading -> binding.progressBar.showLoading(it.isLoading)
+                }
             }
         }
     }
