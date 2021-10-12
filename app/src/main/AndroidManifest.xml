@@ -17,11 +17,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Cars.NoActionBar">
+        android:theme="@style/Theme.Cars">
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${googleMapsKey}" />
+            android:value="AIzaSyAWjS86Vbc2Ae6SshyMW576As2w_VeIf6g" />
 
         <activity
             android:name="com.imdatcandan.cars.view.CarsActivity"

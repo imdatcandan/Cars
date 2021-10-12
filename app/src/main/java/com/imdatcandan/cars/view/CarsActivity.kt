@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.coroutineScope
@@ -32,24 +31,27 @@ class CarsActivity : AppCompatActivity(), OnMapReadyCallback {
     private val viewModel: CarViewModel by viewModel()
     private lateinit var carMap: GoogleMap
     private lateinit var binding: ActivityCarsBinding
-    private lateinit var carListAdapter: CarListAdapter
+    private val carListAdapter = CarListAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_cars)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        carListAdapter = CarListAdapter()
         binding.adapter = carListAdapter
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+        viewModel.getCarList()
+
         lifecycle.coroutineScope.launch {
             viewModel.uiStateFlow.collect {
                 when (it) {
                     is ViewState.Success -> setCarListOnMap(it.carList)
-                    is ViewState.Error -> showErrorDialog(it.exception)
+                    is ViewState.Error -> showErrorDialog(it.exception.message) { _, _ ->
+                        viewModel.getCarList()
+                    }
                     is ViewState.Loading -> binding.progressBar.showLoading(it.isLoading)
                 }
             }
@@ -58,23 +60,13 @@ class CarsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun setCarListOnMap(carList: List<CarUiModel>) {
         carListAdapter.submitList(carList)
-        carList.forEach { car ->
+        carList.map { car ->
             setIconAsMarker(car)
         }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         carMap = googleMap
-    }
-
-    private fun showErrorDialog(exception: Throwable) {
-        AlertDialog.Builder(this)
-            .setTitle(R.string.dialog_error_title)
-            .setMessage(getString(R.string.dialog_error_message, exception.localizedMessage))
-            .setPositiveButton(R.string.dialog_error_button) { _, _ ->
-                viewModel.getCarList()
-            }.create()
-            .show()
     }
 
     private fun setIconAsMarker(carUiModel: CarUiModel) {

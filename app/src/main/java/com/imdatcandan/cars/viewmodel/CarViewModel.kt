@@ -14,10 +14,6 @@ class CarViewModel(private val carUseCase: CarUseCase) : ViewModel() {
         MutableStateFlow(ViewState.Loading(false))
     val uiStateFlow: StateFlow<ViewState> = _uiStateFlow
 
-    init {
-        getCarList()
-    }
-
     fun getCarList() {
         viewModelScope.launch {
             try {
