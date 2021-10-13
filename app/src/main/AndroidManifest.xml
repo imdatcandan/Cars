@@ -20,8 +20,8 @@
         android:theme="@style/Theme.Cars">
 
         <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAWjS86Vbc2Ae6SshyMW576As2w_VeIf6g" />
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/google_maps_api_key" />
 
         <activity
             android:name="com.imdatcandan.cars.view.CarsActivity"

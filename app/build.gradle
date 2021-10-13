@@ -18,9 +18,7 @@ android {
 
         // I am aware of that I should preserve on local.properties but this is extra job for reviewer as well so I prefer to preserve it here
         buildConfigField("String", "BASE_API_URL", BASE_API_URL)
-        buildConfigField("String", "GOOGLE_MAPS_KEY", "\"$applicationId\"")
-        manifestPlaceholders = [googleMapsKey: "$applicationId"]
-
+        resValue ("string", "google_maps_api_key", GOOGLE_MAPS_KEY)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
